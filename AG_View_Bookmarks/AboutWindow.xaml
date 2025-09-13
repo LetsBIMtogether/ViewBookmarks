@@ -1,0 +1,46 @@
+﻿<!-- AboutWindow.xaml -->
+
+<Window x:Class="AG_View_Bookmarks.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="About" Height="320
+        " Width="395"
+        Topmost="True" ResizeMode="NoResize" WindowStyle="None"
+        Background="#FF444444" WindowStartupLocation="CenterScreen">
+
+    <Border Background="Transparent" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+        <StackPanel Margin="10,10,10,10" Background="#FFAFAFAF">
+            
+            <StackPanel Margin="10,10,10,-4">
+                <!-- Message Text -->
+                <TextBlock Foreground="#FF444444" FontFamily="Century Gothic" FontSize="14" TextAlignment="Center" Margin="10,10,10,0" Height="95"><Run Text="Version 2.1.2"/><LineBreak/><LineBreak/><Run Text="Icons from "/><Run FontStyle="Italic" Text="www.icons8.com  "/><LineBreak/><LineBreak/><Run Text="Plugin by "/><Run Text=" www.LetsBIMtogether.com"/><Hyperlink Foreground="#FF155290" NavigateUri="https://www.LetsBIMtogether.com" TextDecorations="Underline"/></TextBlock>
+            </StackPanel>
+
+            <StackPanel Margin="10">
+                <!-- Message Text -->
+                <TextBlock Foreground="#FF444444" FontFamily="Century Gothic" FontSize="14" TextAlignment="Left" Margin="10,5,10,10" Height="109">
+
+                    <!-- Italic Email -->
+                    <Run Text="For support, email " />
+                    <Run Text="Hello@LetsBIMtogether.com" FontStyle="Italic" />
+                    <LineBreak />
+                    <LineBreak />
+                    
+                    <Run Text="Tip: "/>
+                    <LineBreak />
+                    <Run Text="Set a keyboard shortcut for command"/>
+
+                    <LineBreak />
+                    <Run Text="&quot;AG View Bookmarks: Show / Hide&quot;"/>
+                    <LineBreak />
+                    <Run Text="to quickly show and hide view bookmarks!"/>
+                    
+                </TextBlock>
+            </StackPanel>
+
+            <StackPanel Margin="3">
+                <Button Content="OK" Width="80" Height="30" Click="OKButton_Click" Background="#FF777777" Foreground="#FFAFAFAF" FontWeight="Bold" BorderBrush="#FF444444" />
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>

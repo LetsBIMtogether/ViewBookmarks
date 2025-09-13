@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+	<AddIn Type="Command">
+		<!--Before'.' is in properties-->
+		<FullClassName>AG_PLUGIN_NAME.Command</FullClassName> 
+		<AddInId>8C72F516-D7FE-49A9-B01A-F117F84429AD</AddInId>
+		<Text>AG View Bookmarks: Show / Hide</Text>
+		<Description>Shows or hides AG View Bookmarks window</Description>
+		<Assembly>AG_PLUGIN_NAME.dll_== Edit in project's properties ==</Assembly>
+		<VendorId>== Edit in project's properties ==</VendorId>
+		<VendorDescription>== Edit (company + authors + website) in project's properties ==</VendorDescription>
+	</AddIn>
+
+	<AddIn Type="Application">
+		<!--Before'.' is in properties-->
+		<FullClassName>AG_PLUGIN_NAME.App</FullClassName>
+		<ClientId>F4CF659D-A33F-44AF-B118-4176A6C23C77</ClientId>
+		<Name>AG View Bookmarks</Name>
+		<Assembly>AG_PLUGIN_NAME.dll_== Edit in project's properties ==</Assembly>
+		<VendorId>== Edit in project's properties ==</VendorId>
+		<VendorDescription>== Edit (company + authors + website) in project's properties ==</VendorDescription>
+	</AddIn>
+		
+</RevitAddIns>
+

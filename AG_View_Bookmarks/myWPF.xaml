@@ -1,0 +1,329 @@
+﻿<!-- myWPF.xaml -->
+    
+<Window x:Class="AG_View_Bookmarks.myWPF"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:AG_View_Bookmarks"
+        xmlns:controls="clr-namespace:CommonGuiWpf.Controls"
+        mc:Ignorable="d" Height="220" Width="395" 
+        Icon="/AG_View_Bookmarks;component/Images/bookmark-ui-32.png" 
+        Topmost="True" ResizeMode="NoResize" WindowStyle="None" 
+        Background="#FF444444" WindowStartupLocation="CenterScreen"><!--h=188 w=395-->
+
+    <Window.Resources>
+        
+        <!-- Style for Label -->
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Setter Property="Width" Value="290"/>
+            <Setter Property="Background" Value="#FFAFAFAF"/>
+            <Setter Property="FontFamily" Value="Century Gothic"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#FF444444"/>
+        </Style>
+
+        <!-- Bookmark Button Style -->
+        <Style x:Key="CustomButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Image x:Name="ButtonImage" 
+                           Source="/AG_View_Bookmarks;component/Images/bookmark-ui-32.png"
+                           Width="24" Height="24"
+                           HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="270" CenterX="12" CenterY="12" />
+                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                    </TransformGroup>
+                                </Image.RenderTransform>
+                            </Image>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonImage" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="270" CenterX="12" CenterY="12" />
+                                            <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                                        </TransformGroup>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonImage" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="270" CenterX="12" CenterY="12" />
+                                            <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                        </TransformGroup>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Typical agButton -->
+        <Style TargetType="local:agButton" x:Key="ReusableButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="local:agButton">
+                        <Grid>
+                            <Image x:Name="ButtonImage"
+                           Source="{TemplateBinding ImageSource}"
+                           Width="24" Height="24"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonImage" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonImage" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Border Background="Transparent" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+
+        <StackPanel Margin="10,10,10,10" Background="#FF777777">
+
+            <StackPanel Orientation="Horizontal" Margin="37,15,0,0" >
+
+                <Label Content="Remove All Bookmarks"
+                       MouseLeftButtonDown="LabelResetBookmarks_MouseLeftButtonDown"
+                       Style="{StaticResource LabelStyle}" 
+                       Width="160" 
+                       HorizontalContentAlignment="Center" 
+                       VerticalContentAlignment="Center" />
+
+                <Label Content="Close Window"
+                       MouseLeftButtonDown="LabelClose_MouseLeftButtonDown"
+                       Style="{StaticResource LabelStyle}"
+                       Width="114" 
+                       HorizontalContentAlignment="Center" 
+                       VerticalContentAlignment="Center" Margin="15,0,0,0" />
+
+            </StackPanel>
+
+
+            <StackPanel Orientation="Horizontal">
+
+                <!-- About -->
+                <local:agButton Style="{StaticResource ReusableButtonStyle}"
+                       ImageSource="/AG_View_Bookmarks;component/Images/about-office-m-32.png"
+                       Click="AboutButton_Click" Width="20" Height="20" Margin="9,9,0,0" />
+
+                <TextBox x:Name="ConsoleTextBox" Height="20" Margin="8,9,0,0" Width="289" Text="Text Box Text" Background="#FFD4E6F1" SelectionBrush="#FFD4E6F1" Foreground="#FF444444" />
+
+                <local:agButton Style="{StaticResource ReusableButtonStyle}"
+                       ImageSource="/AG_View_Bookmarks;component/Images/refresh-32.png"
+                       Click="RefreshButton_Click" Width="32" Height="32" Margin="8,9,0,0" />
+
+            </StackPanel>
+
+
+            <StackPanel Orientation="Horizontal">
+
+                <!-- Button with the first image -->
+                <local:agButton Style="{StaticResource ReusableButtonStyle}"
+                      ImageSource="/AG_View_Bookmarks;component/Images/import-32.png"
+                      Click="ImportButton_Click" Width="22" Height="22" Margin="8,8,0,0" />
+
+                <!-- Slider to control the number of labels and LEDs -->
+                <Slider x:Name="Slider_Count" Minimum="2" Maximum="20" Value="2" TickFrequency="1" IsSnapToTickEnabled="True"
+                    VerticalAlignment="Top" Margin="6,10,0,0" Width="295"
+                    ValueChanged="Slider_Count_ValueChanged"/>
+
+
+                <!-- Button with the first image -->
+                <local:agButton Style="{StaticResource ReusableButtonStyle}"
+                       ImageSource="/AG_View_Bookmarks;component/Images/export-32.png"
+                       Click="ExportButton_Click" Width="22" Height="22" Margin="7.8,8,0,0" />
+
+            </StackPanel>
+
+            <!-- Predefined 20 StackPanels -->
+            <StackPanel x:Name="DynamicContainer" VerticalAlignment="Top" Margin="0,5,0,0">
+
+                <!-- LED, Label & Button -->
+                <StackPanel x:Name="StackPanel_P1" Orientation="Horizontal" Margin="0,10,0,0">
+                    <controls:LEDControl Tag="L1" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L1" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L1" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <StackPanel x:Name="StackPanel_P2" Orientation="Horizontal" Margin="0,10,0,0">
+                    <controls:LEDControl Tag="L2" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L2" MouseLeftButtonDown="Label_MouseLeftButtonDown"  Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L2" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P3" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L3" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L3" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L3" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P4" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L4" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L4" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L4" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P5" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L5" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L5" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L5" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P6" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L6" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L6" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L6" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P7" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L7" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L7" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L7" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P8" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L8" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L8" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L8" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P9" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L9" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L9" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L9" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P10" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L10" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L10" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L10" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P11" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L11" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L11" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L11" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P12" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L12" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L12" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L12" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P13" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L13" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L13" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L13" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P14" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L14" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L14" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L14" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P15" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L15" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L15" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L15" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P16" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L16" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L16" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L16" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P17" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L17" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L17" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L17" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P18" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L18" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L18" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L18" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P19" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L19" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L19" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L19" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+                <!-- Remaining predefined StackPanels -->
+                <StackPanel x:Name="StackPanel_P20" Orientation="Horizontal" Margin="0,10,0,0" Visibility="Collapsed">
+                    <controls:LEDControl Tag="L20" Width="16" Height="16" Margin="10,0,10,0" />
+                    <Label Content="-._.-`~,-._.-`~," Tag="L20" MouseLeftButtonDown="Label_MouseLeftButtonDown" Style="{StaticResource LabelStyle}" />
+                    <Button Style="{StaticResource CustomButtonStyle}" 
+                            Click="BookmarkButton_Click" Tag="L20" Width="32" Height="24" Margin="9,0,10,0" />
+                </StackPanel>
+
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>

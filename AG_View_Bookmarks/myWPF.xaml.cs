@@ -1,21 +1,22 @@
 ﻿// myWPF.cs
 
 #region Namespaces
+using AG_View_Bookmarks.xWPF;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using CommonGuiWpf.Controls;
 using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
-using System.Xml.Linq;
-using System.Threading.Tasks;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Collections.Generic;
-using Autodesk.Revit.DB;
-using System.Linq;
-using CommonGuiWpf.Controls;
-using System.Collections.Concurrent;
+using System.Xml.Linq;
 #endregion
 
 namespace AG_View_Bookmarks
@@ -38,7 +39,7 @@ namespace AG_View_Bookmarks
         private readonly Brush _clickedBackground = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString("#FF444444"));  // Dark Grey
         private readonly Dictionary<Label, CancellationTokenSource> _cancellationTokenSources = new Dictionary<Label, CancellationTokenSource>();
 
-        private AboutWindow _aboutWindow;
+        private WPFaboutWindow _aboutWindow;
         private readonly UIApplication _uiapp;
 
         private readonly System.Windows.Controls.TextBox _consoleTextBox;                           // Reference to the console's TextBox
@@ -124,7 +125,7 @@ namespace AG_View_Bookmarks
             if (_aboutWindow == null || !_aboutWindow.IsVisible)
             {
                 // Create a new instance if it's not already open
-                _aboutWindow = new AboutWindow();
+                _aboutWindow = new WPFaboutWindow();
 
                 // Handle the Closed event to nullify the reference when the window is closed
                 _aboutWindow.Closed += (s, args) => _aboutWindow = null;

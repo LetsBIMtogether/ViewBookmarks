@@ -6,11 +6,11 @@ using System.Windows;
 using System.Windows.Input;
 #endregion
 
-namespace AG_View_Bookmarks
+namespace AG_View_Bookmarks.xWPF
 {
-    public partial class agDialogWindow : Window
+    public partial class WPFdialogWindow : Window
     {
-        public agDialogWindow(string message)
+        public WPFdialogWindow(string message)
         {
             try
             {

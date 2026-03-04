@@ -23,8 +23,9 @@
               2024  |  net48
               2025  |  net8.0-windows
               2026  |  net8.0-windows
+              2027  |  net10.0-windows
 		-->
-		<TargetFrameworks>net47;net48;net8.0-windows</TargetFrameworks>
+		<TargetFrameworks>net47;net48;net8.0-windows;net10.0-windows</TargetFrameworks>
 		<!-- net47;net48;net8.0-windows -->
 		<RuntimeIdentifiers>win</RuntimeIdentifiers>
 		<RevitVersion Condition=" '$(RevitVersion)' == '' ">2024</RevitVersion>
@@ -33,8 +34,8 @@
 
 
 	<!-- DEFAULT:
-                        2019, 2024, 2025
-	-->
+                        2019, 2024, 2025, 2027
+    -->
 	<!-- POST DISPATCH:
 	                    2020; 2021, 2022, 2023, 2026
 	-->
@@ -47,7 +48,10 @@
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0-windows' ">
 		<RevitVersion>2025</RevitVersion>
 	</PropertyGroup>
-	
+
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net10.0-windows' ">
+		<RevitVersion>2027</RevitVersion>
+	</PropertyGroup>	
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Debug One'">
 		<TargetFrameworks>net48</TargetFrameworks>
@@ -116,10 +120,6 @@
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
 		<FrameworkReference Include="Microsoft.WindowsDesktop.App" />
-		<PackageReference Include="System.Drawing.Common">
-			<Version>8.0.3</Version>
-		</PackageReference>
-		<PackageReference Include="System.Net.Http" Version="4.3.4" />
 	</ItemGroup>
 
 
@@ -134,13 +134,13 @@
 		<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2024.*" Condition=" '$(RevitVersion)' == '2024' " PrivateAssets="All" />
 	</ItemGroup>
 
-
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows' ">
 		<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2025.*" Condition=" '$(RevitVersion)' == '2025' " PrivateAssets="All" />
-
-		<PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="2026.*" Condition=" '$(RevitVersion)' == '2026' " PrivateAssets="All" />
-		<PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="2026.*" Condition=" '$(RevitVersion)' == '2026' " PrivateAssets="All" />
-		<PackageReference Include="Nice3point.Revit.Api.AdWindows" Version="2026.*" Condition=" '$(RevitVersion)' == '2026' " PrivateAssets="All" />
+		<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2026.*" Condition=" '$(RevitVersion)' == '2026' " PrivateAssets="All" />
+	</ItemGroup>
+	
+	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows' ">
+		<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2027.0.0-beta" Condition=" '$(RevitVersion)' == '2027' " PrivateAssets="All" />
 	</ItemGroup>
 
 
@@ -196,12 +196,12 @@
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</EmbeddedResource>
 
-		<Compile Include="AboutWindow.xaml.cs" />
-		<Compile Include="AGdialogWindow.xaml.cs" />
-		<Compile Include="AGdialog.cs" />
-		<Compile Include="AGdialogWindowYesNo.xaml.cs" />
+		<Compile Include="xWPF\WPFaboutWindow.xaml.cs" />
+		<Compile Include="xWPF\WPFdialogWindow.xaml.cs" />
+		<Compile Include="xWPF\WPFdialog.cs" />
+		<Compile Include="xWPF\WPFdialogWindowYesNo.xaml.cs" />
 		<Compile Include="App.cs" />
-		<Compile Include="AG.cs" />
+		<Compile Include="U.cs" />
 		<Compile Include="Command.cs" />
 		<Compile Include="LEDControl.xaml.cs" />
 		<Compile Include="myWPF.xaml.cs" />
@@ -211,13 +211,13 @@
   </ItemGroup>
 	
 	<ItemGroup>
-	  <Page Include="AboutWindow.xaml">
+	  <Page Include="xWPF\WPFaboutWindow.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
-	  <Page Include="AGdialogWindow.xaml">
+	  <Page Include="xWPF\WPFdialogWindow.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
-	  <Page Include="AGdialogWindowYesNo.xaml">
+	  <Page Include="xWPF\WPFdialogWindowYesNo.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
 	  <Page Include="LEDControl.xaml">
@@ -234,11 +234,11 @@
 		<AssemblyName>AG_View_Bookmarks</AssemblyName>
 
 		<Authors>Arthur Ganem</Authors>
-		<PackageId>com.LetsBIMtogether</PackageId>
+		<PackageId>LetsBIMtogether</PackageId>
 		<Company>Lets BIM Together</Company>
 		<PackageProjectUrl>wwww.LetsBIMtogether.com</PackageProjectUrl>
 		<Product>$(RootNamespace)</Product>
-		<Version>1.0.0</Version>
+		<Version>3.1.1</Version>
 		<NeutralLanguage>en</NeutralLanguage>
 	</PropertyGroup>
 
@@ -339,21 +339,10 @@
 	</Target>
 
 
-	<Target Name="RemoveRevit2025DepsJsonFile" AfterTargets="AfterBuild" Condition="'$(RevitVersion)' == '2025'">
+	<Target Name="RemoveRevitDepsJsonFile" AfterTargets="AfterBuild" Condition="'$(RevitVersion)' == '2025' OR '$(RevitVersion)' == '2026' OR '$(RevitVersion)' == '2027'">
 		<ItemGroup>
 			<DepsJsonFile Include="$(OutputPath)\$(AssemblyName).deps.json" />
 		</ItemGroup>
-
-		<!-- Delete the .deps.json file from the output directory -->
-		<Delete Files="@(DepsJsonFile)" />
-	</Target>
-
-	<Target Name="RemoveRevit2026DepsJsonFile" AfterTargets="AfterBuild" Condition="'$(RevitVersion)' == '2026'">
-		<ItemGroup>
-			<DepsJsonFile Include="$(OutputPath)\$(AssemblyName).deps.json" />
-		</ItemGroup>
-
-		<!-- Delete the .deps.json file from the output directory -->
 		<Delete Files="@(DepsJsonFile)" />
 	</Target>
 

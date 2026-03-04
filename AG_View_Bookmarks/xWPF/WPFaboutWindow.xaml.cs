@@ -9,11 +9,11 @@ using System.Diagnostics;
 using System.Windows.Navigation;
 #endregion
 
-namespace AG_View_Bookmarks
+namespace AG_View_Bookmarks.xWPF
 {
-    public partial class AboutWindow : Window
+    public partial class WPFaboutWindow : Window
     {
-        public AboutWindow()
+        public WPFaboutWindow()
         {
             InitializeComponent();
         }

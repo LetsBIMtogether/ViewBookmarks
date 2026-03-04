@@ -20,27 +20,18 @@ namespace AG_View_Bookmarks
             {
                 RibbonPanel rPanel = a.CreateRibbonPanel("AG View Bookmarks");
 
-                string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
-
                 PushButtonData buttonData = new PushButtonData(
                     "AG_View_Bookmarks",
                     "Show Window /\nHide Window",
-                    thisAssemblyPath,
+                    AG.U.exeAsm.Location,
                     "AG_View_Bookmarks.Command"
                     );
 
                 PushButton pButton = rPanel.AddItem(buttonData) as PushButton;
-
                 pButton.ToolTip = "Shows or hides AG View Bookmarks window.";
+                pButton.LargeImage = AG.U.GetRibbonBitmapR("Images/bookmark-ui-32.ico");
 
-                // Set the icon from the resource path
-                BitmapImage bLargeImage = new BitmapImage();
-                bLargeImage.BeginInit();
-                bLargeImage.UriSource = new Uri("pack://application:,,,/AG_View_Bookmarks;component/Images/bookmark-ui-32.ico");
-                bLargeImage.EndInit();
-                pButton.LargeImage = bLargeImage;
-
-                // Use https://convertio.co to convert PDF to HTML :)
+                // Use https://convertio.co to convert TXT to HTML :)
                 ContextualHelp contextHelp = new ContextualHelp(ContextualHelpType.Url, "https://letsbimtogether.com/__revit/VB/F1.html");
                 pButton.SetContextualHelp(contextHelp);
 

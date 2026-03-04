@@ -5,7 +5,7 @@ using System.Windows;
 using System;
 #endregion
 
-namespace AG_View_Bookmarks
+namespace AG_View_Bookmarks.xWPF
 {
     public static class AGdialog
    {
@@ -13,7 +13,7 @@ namespace AG_View_Bookmarks
         {
             try
             {
-                var dialog = new agDialogWindow(message);
+                var dialog = new WPFdialogWindow(message);
                 dialog.ShowDialog();
                 // ^-- This ensures it is shown modally (instead of .Show())
             }
@@ -27,7 +27,7 @@ namespace AG_View_Bookmarks
         {
             try
             {
-                var dialog = new agDialogWindowYesNo(message);
+                var dialog = new WPFdialogWindowYesNo(message);
                 dialog.ShowDialog(); 
                 return dialog.UserResponse; 
             }

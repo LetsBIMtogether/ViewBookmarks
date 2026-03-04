@@ -6,13 +6,13 @@ using System.Windows;
 using System.Windows.Input;
 #endregion
 
-namespace AG_View_Bookmarks
+namespace AG_View_Bookmarks.xWPF
 {
-    public partial class agDialogWindowYesNo : Window
+    public partial class WPFdialogWindowYesNo : Window
     {
         public bool UserResponse { get; private set; } 
 
-        public agDialogWindowYesNo(string message)
+        public WPFdialogWindowYesNo(string message)
         {
             try
             {
